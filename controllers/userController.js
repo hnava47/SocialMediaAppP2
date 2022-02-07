@@ -27,7 +27,7 @@ module.exports = {
             res.json(e);
         }
     },
-    signUpView: (req, res) => {
+    signupView: (req, res) => {
         if (req.session.loggedIn) {
             return res.redirect('/todos');
         }
