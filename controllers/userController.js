@@ -3,7 +3,7 @@ const { User } = require('../models');
 module.exports = {
     loginView: (req, res) => {
         if (req.session.loggedIn) {
-            return res.redirect('/todos');
+            return res.redirect('/feed');
         }
 
         res.render('login');
@@ -29,7 +29,7 @@ module.exports = {
     },
     signupView: (req, res) => {
         if (req.session.loggedIn) {
-            return res.redirect('/todos');
+            return res.redirect('/feed');
         }
 
         res.render('signup');
@@ -51,7 +51,7 @@ module.exports = {
             req.session.save(() => {
                 req.session.loggedIn = true;
                 req.session.user = user;
-                res.redirect('/todos');
+                res.redirect('/feed');
             });
         } catch (e) {
             res.json(e);
