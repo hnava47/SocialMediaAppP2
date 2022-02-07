@@ -5,6 +5,8 @@ const {
     signupView
 } = require('../controllers/userController');
 
+router.get('/login', loginView);
+router.get('/signup', signupView);
 router.get('/api', apiRoutes);
 
 module.exports = router;
