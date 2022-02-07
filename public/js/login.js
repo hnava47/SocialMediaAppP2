@@ -1,17 +1,16 @@
 $(document).ready(function() {
     const $emailField = $('#emailField');
-    const $usernameField = $('#usernameField');
     const $passwordField = $('#passwordField');
-    const $signUpBtn = $('#signUpBtn');
+    const $signInBtn = $('#signInBtn');
 
-    $signUpBtn.on('click', async function(event) {
+    $signInBtn.on('click', async function(event) {
         event.preventDefault();
-        await $.post('/api/users/signup', {
+        await $.post('/api/users/login', {
             email: $emailField.val().trim(),
-            username: $usernameField.val().trim(),
             password: $passwordField.val().trim()
         });
 
         window.location.href = '/todos';
     });
+
 });
