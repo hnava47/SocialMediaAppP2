@@ -13,7 +13,11 @@ User.init(
         },
         firstName: {
             type: DataTypes.STRING,
-            allNull: false
+            allowNull: false
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         username: {
             type: DataTypes.STRING,
@@ -38,9 +42,21 @@ User.init(
     },
     {
         sequelize,
-        timestamps: true,
         freezeTableName: true,
-        modelName: 'user'
+        modelName: 'user',
+        hooks: {
+            beforeCreate: async (user, options) => {
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(user.password, salt);
+                user.email = user.email.toLowerCase();
+                user.password = hashedPassword;
+                return user;
+            },
+            beforeUpdate: async (user, options) => {
+                user.email = user.email.toLowerCase();
+                return user;
+            }
+        }
     }
 );
 
