@@ -20,8 +20,8 @@ module.exports = {
                 req.session.save(() => {
                     req.session.loggedIn = true;
                     req.session.user = userFound;
-                    res.json({ success: true });
                 });
+                res.json({ success: true });
             }
         } catch (e) {
             res.json(e);
@@ -57,13 +57,6 @@ module.exports = {
         } catch (e) {
             res.json(e);
         }
-    },
-    feedView: (req, res) => {
-        if (req.session.loggedIn) {
-            return res.redirect('/feed');
-        }
-
-        res.render('feed');
     },
     logout: (req, res) => {
         req.session.destroy(() => {

@@ -2,9 +2,11 @@ const router = require('express').Router();
 const apiRoutes = require('./apiRoutes');
 const {
     loginView,
-    signupView,
-    feedView
+    signupView
 } = require('../controllers/userController');
+const {
+    feedView
+} = require('../controllers/postController');
 
 router.get('/login', loginView);
 router.get('/signup', signupView);
