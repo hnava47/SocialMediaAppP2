@@ -4,6 +4,11 @@ $(document).ready(function() {
     const $signInBtn = $('#signInBtn');
 
     $signInBtn.on('click', async function(event) {
+        if (!$emailField || !$passwordField) {
+            console.log('false');
+            return;
+        }
+
         event.preventDefault();
         await $.ajax({
             url: '/api/users/login',
