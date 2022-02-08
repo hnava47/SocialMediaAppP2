@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
 module.exports = {
@@ -9,19 +10,35 @@ module.exports = {
         res.render('login');
     },
     login: async (req, res) => {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(401).json({ error: 'You must provide a valid email and password' });
+        }
+
         try {
             const userData = await User.findOne({
                 where: {
-                    email: req.body.email
+                    email: email
                 }
             });
+
+            if (!userData) {
+                return res.status(400).json({ error: 'No user with that email' });
+            }
+
             const userFound = userData.get({ plain: true });
-            if (userFound.password === req.body.password) {
+
+            const isMatchingPassword = await bcrypt.compare(password, userFound.password);
+
+            if (isMatchingPassword) {
                 req.session.save(() => {
                     req.session.loggedIn = true;
                     req.session.user = userFound;
                 });
-                res.json({ success: true });
+                res.render('feed');
+            } else {
+                res.json({ success: false });
             }
         } catch (e) {
             res.json(e);
