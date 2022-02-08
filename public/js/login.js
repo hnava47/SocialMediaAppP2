@@ -14,8 +14,7 @@ $(document).ready(function() {
                 password: $passwordField.val().trim()
             })
         });
+
+        window.location.href = '/feed';
     });
-
-    // window.location.href = '/feed';
-
 });
