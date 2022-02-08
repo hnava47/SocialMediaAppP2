@@ -1,8 +1,11 @@
 $(document).ready(function() {
-    const $logoutBtn = $('#logout');
+    const $logoutBtn = $('#logoutBtn');
 
     $logoutBtn.on('click', async function() {
-        await $.post('/api/users/logout');
-        window.location.href = '/';
+        await $.ajax({
+            url: '/api/users/logout',
+            method: 'POST',
+        });
+        window.location.href = '/login';
     });
 });
