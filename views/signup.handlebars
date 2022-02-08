@@ -1,17 +1,15 @@
 <link href="https://getbootstrap.com/docs/5.1/examples/sign-in/signin.css" rel="stylesheet">
 
-<div class="container">
+<div class="container py-5">
     <main>
-        <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="./img/people-arrows-solid.svg" alt="" width="72" height="57">
-            <h2>Sign up form</h2>
-            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-        </div>
-
-        <div class="row g-5">
-            <div class="col-md-7 col-lg">
-                <h4 class="mb-3">Billing address</h4>
-                <form class="needs-validation" novalidate>
+        <div class="row g-5 justify-content-center">
+            <div class="col-md-5">
+                <div class="py-4 text-center row">
+                    <img class="d-block mx-auto mb-4" src="./img/people-arrows-solid.svg" alt="" width="72" height="57">
+                    <h2>Social Media App</h2>
+                    <p class="lead">Sign up to see comments and posts from you friends by filling out the following fields.</p>
+                </div>
+                <form>
                     <div class="row g-3">
                         <div class="form-floating col-sm-6">
                             <input type="text" class="form-control" id="floatingInput" placeholder="First name">
@@ -23,37 +21,25 @@
                             <label for="floatingInput">Last name</label>
                         </div>
 
-                        <div class="col-12">
-                            <label for="username" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text">@</span>
-                                <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
-                            </div>
+                        <div class="form-floating col-12">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Username">
+                            <label for="floatingInput">Username</label>
                         </div>
 
-                        <div class="col-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                            <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                            </div>
+                        <div class="form-floating col-12">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
                         </div>
 
-                        <div class="col-12">
-                            <label for="passwordField" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="passwordField" placeholder="Password" required>
-                            <div class="invalid-feedback">
-                            Please enter your shipping address.
-                            </div>
+                        <div class="form-floating col-12">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
                         </div>
                     </div>
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Sign up</button>
                 </form>
             </div>
         </div>
