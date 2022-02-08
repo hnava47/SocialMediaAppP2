@@ -34,7 +34,7 @@ module.exports = {
 
         res.render('signup');
     },
-    signUpHandler: async (req, res) => {
+    signupHandler: async (req, res) => {
         const { firstName, lastName, username, email, password } = req.body;
 
         try {
@@ -51,11 +51,19 @@ module.exports = {
             req.session.save(() => {
                 req.session.loggedIn = true;
                 req.session.user = user;
-                res.redirect('/feed');
             });
+
+            res.redirect('/feed');
         } catch (e) {
             res.json(e);
         }
+    },
+    feedView: (req, res) => {
+        if (req.session.loggedIn) {
+            return res.redirect('/feed');
+        }
+
+        res.render('feed');
     },
     logout: (req, res) => {
         req.session.destroy(() => {

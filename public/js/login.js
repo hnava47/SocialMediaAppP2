@@ -6,8 +6,9 @@ $(document).ready(function() {
     $signInBtn.on('click', async function(event) {
         event.preventDefault();
         await $.ajax({
-            method: 'POST',
             url: '/api/users/login',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             data: {
                 email: $emailField.val().trim(),
                 password: $passwordField.val().trim()
