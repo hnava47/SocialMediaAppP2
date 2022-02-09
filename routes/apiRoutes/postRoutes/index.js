@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const {
-    // viewAllPosts,
+    viewAllPosts,
     createPost,
     // updatePost,
     // deletePost
 } = require('../../../controllers/postController');
 
-// router.get('/', viewAllPosts);
+router.get('/', viewAllPosts);
 
 router.post('/', createPost);
 

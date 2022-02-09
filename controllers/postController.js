@@ -1,4 +1,10 @@
-const { Post } = require('../models');
+const {
+    Comment,
+    Heart,
+    Post,
+    User
+} = require('../models');
+const sequelize = require('sequelize');
 
 module.exports = {
     feedView: async (req, res) => {
@@ -21,6 +27,29 @@ module.exports = {
                 message
             });
             res.json(post);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    viewAllPosts: async function (req, res) {
+        try {
+            const allPosts = await Post.findAll({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['firstName', 'lastName']
+                    },
+                    {
+                        model: Heart,
+                        attributes: ['id']
+                    },
+                    {
+                        model: Comment,
+                        attributes: ['id']
+                    }
+                ]
+            });
+            res.json(allPosts);
         } catch (e) {
             res.json(e);
         }
