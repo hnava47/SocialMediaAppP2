@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-// router.get('/:postId', viewComments)
+// TODO: router.get('/:postId', viewComments)
 
-// router.post('/', createComment);
+// TODO: router.post('/', createComment);
 
-// router.route('/:commentId')
+// TODO: router.route('/:commentId')
 //     .patch(updateComment)
 //     .delete(deleteComment);
 

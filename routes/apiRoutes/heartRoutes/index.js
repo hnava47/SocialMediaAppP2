@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
-// router.get('/:postId', viewHearts);
+// TODO: router.get('/:postId', viewHearts);
 
-// router.post('/', createHearts);
+// TODO: router.post('/', createHearts);
 
-// router.delete('/:heartId', deleteHearts);
+// TODO: router.delete('/:heartId', deleteHearts);
 
 module.exports = router;
