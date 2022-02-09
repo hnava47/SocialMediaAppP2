@@ -68,9 +68,8 @@ module.exports = {
             req.session.save(() => {
                 req.session.loggedIn = true;
                 req.session.user = user;
+                res.json({ success: true });
             });
-
-            res.redirect('/feed');
         } catch (e) {
             res.json(e);
         }

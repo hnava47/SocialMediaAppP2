@@ -9,15 +9,15 @@ module.exports = {
         res.render('feed');
     },
     createPost: async (req, res) => {
-        const { creatorId,  message } = req.body;
+        const { message } = req.body;
 
-        if (!creatorId || !message) {
-            return res.status(401).json({ error: 'Must include valid creatorId and message' });
+        if (!message) {
+            return res.status(401).json({ error: 'Must include a message' });
         }
 
         try {
             const post = await Post.create({
-                creatorId,
+                creatorId: req.session.user.id,
                 message
             });
             res.json(post);

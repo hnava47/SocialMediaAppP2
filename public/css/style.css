@@ -9,3 +9,9 @@ header {
 .dropdown-item {
     cursor: pointer;
 }
+
+.custom-success {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

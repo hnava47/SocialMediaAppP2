@@ -1,5 +1,11 @@
 $(document).ready(function() {
     const $logoutBtn = $('#logoutBtn');
+    const $modal = $('.modal');
+    const $postMessage = $('#postMessage');
+    const $postBtn = $('#postBtn');
+    const $successMessage = $('.custom-success');
+    const $closeBtn = $('#closeMessage');
+
 
     $logoutBtn.on('click', async function() {
         await $.ajax({
@@ -8,4 +14,26 @@ $(document).ready(function() {
         });
         window.location.href = '/login';
     });
+
+    $postBtn.on('click', async function() {
+        await $.ajax({
+            url: '/api/posts',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({
+                message: $postMessage.val().trim()
+            })
+        });
+        $modal.modal('toggle');
+
+        $postMessage.val('');
+
+        $successMessage.fadeIn();
+
+        setTimeout(function() {
+            $successMessage.fadeOut();
+        }, 4000);
+    });
+
+    $closeBtn.on('click', () => $successMessage.hide());
 });
