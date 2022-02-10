@@ -44,6 +44,41 @@ module.exports = {
             res.json(e);
         }
     },
+    facebookLogin: async (req, res) => {
+        const { email, first_name, last_name } = req.user._json;
+
+        try {
+            if (!email) {
+                return res.status(401).json({ error: 'Email required' });
+            }
+
+            let fbUserData = await User.findOne({
+                where: {
+                    email
+                }
+            });
+
+            if (!fbUserData) {
+                fbUserData = await User.create({
+                    firstName: first_name,
+                    lastName: last_name,
+                    username: '@'+first_name+last_name,
+                    email,
+                    password: 'password'
+                });
+            }
+
+            const fbUser = fbUserData.get({ plain: true });
+
+            req.session.save(() => {
+                req.session.loggedIn = true;
+                req.session.user = fbUser;
+                return res.redirect('/feed');
+            });
+        } catch (e) {
+            res.json(e);
+        }
+    },
     signupView: (req, res) => {
         if (req.session.loggedIn) {
             return res.redirect('/feed');
