@@ -44,6 +44,35 @@ module.exports = {
             res.json(e);
         }
     },
+    facebookLogin: (req, res) => {
+        const { email, first_name, last_name } = req.user._json;
+
+        try {
+            const fbUserData = User.findOrCreate({
+                where: {
+                    email
+                },
+                defaults: {
+                    firstName: first_name,
+                    lastName: last_name,
+                    username: '@'+first_name + last_name,
+                    password: 'password'
+                }
+            });
+
+            const fbUser = fbUserData.get({ plain: true });
+
+            req.session.save(() => {
+                req.session.loggedIn = true;
+                req.session.user = fbUser;
+                res.json({ success: true });
+            });
+
+            res.redirect('/feed');
+        } catch (e) {
+            res.json(e);
+        }
+    },
     signupView: (req, res) => {
         if (req.session.loggedIn) {
             return res.redirect('/feed');

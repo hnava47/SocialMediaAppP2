@@ -3,8 +3,11 @@ const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
+const passport = require('passport');
+const facebookStrategy = require('passport-facebook').Strategy;
 const sequelize = require('./config');
 const routes = require('./routes');
+const { User } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,9 +25,24 @@ app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionSettings));
 app.use(routes);
+
+passport.serializeUser((user, cb) => cb(null, user));
+passport.deserializeUser((obj, cb) => cb(null, obj));
+
+passport.use(new facebookStrategy({
+    clientID: process.env.FB_ID,
+    clientSecret: process.env.FB_SECRET,
+    callbackURL: 'http://localhost:3001/auth/facebook/callback',
+    profileFields: ['id', 'email', 'first_name', 'last_name']
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        return cb(null, profile);
+    }
+));
 
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
