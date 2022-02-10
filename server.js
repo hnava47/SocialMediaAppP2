@@ -7,7 +7,6 @@ const passport = require('passport');
 const facebookStrategy = require('passport-facebook').Strategy;
 const sequelize = require('./config');
 const routes = require('./routes');
-const { User } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,11 +24,12 @@ app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionSettings));
 app.use(routes);
 
+app.use(passport.initialize());
+app.use(passport.session());
 passport.serializeUser((user, cb) => cb(null, user));
 passport.deserializeUser((obj, cb) => cb(null, obj));
 

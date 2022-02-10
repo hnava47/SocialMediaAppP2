@@ -44,31 +44,37 @@ module.exports = {
             res.json(e);
         }
     },
-    facebookLogin: (req, res) => {
+    facebookLogin: async (req, res) => {
         const { email, first_name, last_name } = req.user._json;
 
         try {
-            const fbUserData = User.findOrCreate({
+            if (!email) {
+                return res.status(401).json({ error: 'Email required' });
+            }
+
+            let fbUserData = await User.findOne({
                 where: {
                     email
-                },
-                defaults: {
-                    firstName: first_name,
-                    lastName: last_name,
-                    username: '@'+first_name + last_name,
-                    password: 'password'
                 }
             });
+
+            if (!fbUserData) {
+                let fbUserData = await User.create({
+                    firstName: first_name,
+                    lastName: last_name,
+                    username: '@'+first_name+last_name,
+                    email,
+                    password: 'password'
+                });
+            }
 
             const fbUser = fbUserData.get({ plain: true });
 
             req.session.save(() => {
                 req.session.loggedIn = true;
                 req.session.user = fbUser;
-                res.json({ success: true });
+                return res.redirect('/feed');
             });
-
-            res.redirect('/feed');
         } catch (e) {
             res.json(e);
         }
