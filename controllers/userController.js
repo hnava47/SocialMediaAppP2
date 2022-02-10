@@ -59,7 +59,7 @@ module.exports = {
             });
 
             if (!fbUserData) {
-                let fbUserData = await User.create({
+                fbUserData = await User.create({
                     firstName: first_name,
                     lastName: last_name,
                     username: '@'+first_name+last_name,
