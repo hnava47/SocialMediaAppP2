@@ -6,6 +6,10 @@ header {
     background-color: #f5f5f5;
 }
 
+.hr {
+    border-bottom: 1px solid black;
+}
+
 .dropdown-item {
     cursor: pointer;
 }
