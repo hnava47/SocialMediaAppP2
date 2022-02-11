@@ -6,8 +6,7 @@ $(document).ready(function() {
     const $successMessage = $('.custom-success');
     const $closeBtn = $('#closeMessage');
 
-
-    $logoutBtn.on('click', async function() {
+    $logoutBtn.on('click', async () => {
         await $.ajax({
             url: '/api/users/logout',
             method: 'POST',
@@ -15,7 +14,7 @@ $(document).ready(function() {
         window.location.href = '/login';
     });
 
-    $postBtn.on('click', async function() {
+    $postBtn.on('click', async () => {
         await $.ajax({
             url: '/api/posts',
             method: 'POST',
