@@ -82,5 +82,18 @@ module.exports = {
         } catch (e) {
             res.json(e);
         }
+    },
+    deletePost: async (req, res) => {
+        try {
+            const deletePost = await Post.findByPk(req.params.postId);
+
+            await Post.destroy({
+                where: { id: req.params.postId }
+            });
+
+            res.json(deletePost);
+        } catch (e) {
+            res.json(e);
+        }
     }
 };
