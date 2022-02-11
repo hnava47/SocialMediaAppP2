@@ -53,5 +53,18 @@ module.exports = {
         } catch (e) {
             res.json(e);
         }
+    },
+    viewUserPosts: async function (req, res) {
+        try {
+            const userPosts = await Post.findAll({
+                where: {
+                    creatorId: req.params.userId
+                }
+            });
+
+            res.json(userPosts);
+        } catch (e) {
+            res.json(e);
+        }
     }
 };
