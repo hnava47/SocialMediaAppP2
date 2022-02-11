@@ -3,7 +3,7 @@ const {
     viewAllPosts,
     viewUserPosts,
     createPost,
-    // updatePost,
+    updatePost,
     // deletePost
 } = require('../../../controllers/postController');
 
@@ -12,8 +12,8 @@ router.get('/:userId', viewUserPosts);
 
 router.post('/', createPost);
 
-// router.route('/:postId')
-//     .patch(updatePost)
+router.route('/:postId')
+    .patch(updatePost);
 //     .delete(deletePost);
 
 module.exports = router;

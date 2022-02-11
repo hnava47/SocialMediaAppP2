@@ -31,7 +31,7 @@ module.exports = {
             res.json(e);
         }
     },
-    viewAllPosts: async function (req, res) {
+    viewAllPosts: async (req, res) => {
         try {
             const allPosts = await Post.findAll({
                 include: [
@@ -54,7 +54,7 @@ module.exports = {
             res.json(e);
         }
     },
-    viewUserPosts: async function (req, res) {
+    viewUserPosts: async (req, res) => {
         try {
             const userPosts = await Post.findAll({
                 where: {
@@ -63,6 +63,22 @@ module.exports = {
             });
 
             res.json(userPosts);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    updatePost: async (req, res) => {
+        const { message } = req.body;
+
+        try {
+            await Post.update(
+                { message },
+                { where: { id: req.params.postId } }
+            );
+
+            const updatedPost = await Post.findByPk(req.params.postId);
+
+            res.json(updatedPost);
         } catch (e) {
             res.json(e);
         }
