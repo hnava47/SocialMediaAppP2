@@ -1,9 +1,15 @@
 const router = require('express').Router();
 
-// TODO: router.get('/:postId', viewHearts);
+const {
+    viewHearts,
+    createHeart,
+    deleteHeart,
+} = require('../../../controllers/heartController');
 
-// TODO: router.post('/', createHeart);
+router.get('/:postId', viewHearts);
 
-// TODO: router.delete('/:heartId', deleteHeart);
+router.post('/', createHeart);
+
+router.delete('/:heartId', deleteHeart);
 
 module.exports = router;

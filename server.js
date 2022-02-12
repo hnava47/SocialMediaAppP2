@@ -33,16 +33,16 @@ app.use(passport.session());
 passport.serializeUser((user, cb) => cb(null, user));
 passport.deserializeUser((obj, cb) => cb(null, obj));
 
-passport.use(new facebookStrategy({
-    clientID: process.env.FB_ID,
-    clientSecret: process.env.FB_SECRET,
-    callbackURL: 'http://localhost:3001/auth/facebook/callback',
-    profileFields: ['id', 'email', 'first_name', 'last_name']
-    },
-    function(accessToken, refreshToken, profile, cb) {
-        return cb(null, profile);
-    }
-));
+// passport.use(new facebookStrategy({
+//     clientID: process.env.FB_ID,
+//     clientSecret: process.env.FB_SECRET,
+//     callbackURL: 'http://localhost:3001/auth/facebook/callback',
+//     profileFields: ['id', 'email', 'first_name', 'last_name']
+//     },
+//     function(accessToken, refreshToken, profile, cb) {
+//         return cb(null, profile);
+//     }
+// ));
 
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
