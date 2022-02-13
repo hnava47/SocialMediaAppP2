@@ -6,6 +6,11 @@ header {
     background-color: #f5f5f5;
 }
 
+#fbBtn {
+    background-color: #4267B2;
+    color: white;
+}
+
 .hr {
     border-bottom: 1px solid black;
 }
