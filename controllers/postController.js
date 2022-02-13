@@ -33,7 +33,7 @@ module.exports = {
     },
     viewAllPosts: async (req, res) => {
         try {
-            const allPosts = await Post.findAll({
+            const allPostsData = await Post.findAll({
                 include: [
                     {
                         model: User,
@@ -49,7 +49,11 @@ module.exports = {
                     }
                 ]
             });
-            res.json(allPosts);
+
+            res.render('feed', {
+                allPosts: allPostsData.map(post => post.get({ plain: true })),
+                user:req.session.user
+            });
         } catch (e) {
             res.json(e);
         }
