@@ -6,30 +6,6 @@ const {
 } = require('../models');
 
 module.exports = {
-    feedView: async (req, res) => {
-        if (!req.session.loggedIn) {
-            return res.redirect('/login');
-        }
-
-        res.render('feed');
-    },
-    createPost: async (req, res) => {
-        const { message } = req.body;
-
-        if (!message) {
-            return res.status(401).json({ error: 'Must include a message' });
-        }
-
-        try {
-            const post = await Post.create({
-                creatorId: req.session.user.id,
-                message
-            });
-            res.json(post);
-        } catch (e) {
-            res.json(e);
-        }
-    },
     viewAllPosts: async (req, res) => {
         if (!req.session.loggedIn) {
             return res.redirect('/login');
@@ -77,6 +53,32 @@ module.exports = {
             res.json(e);
         }
     },
+    viewPost: async (req, res) => {
+        try {
+            const getPost = await Post.findByPk(req.params.postId);
+
+            res.json(getPost);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    createPost: async (req, res) => {
+        const { message } = req.body;
+
+        if (!message) {
+            return res.status(401).json({ error: 'Must include a message' });
+        }
+
+        try {
+            const post = await Post.create({
+                creatorId: req.session.user.id,
+                message
+            });
+            res.json(post);
+        } catch (e) {
+            res.json(e);
+        }
+    },
     updatePost: async (req, res) => {
         const { message } = req.body;
 
@@ -86,9 +88,7 @@ module.exports = {
                 { where: { id: req.params.postId } }
             );
 
-            const updatedPost = await Post.findByPk(req.params.postId);
-
-            res.json(updatedPost);
+            res.status(200).json({ message: 'Post was successfully updated' });
         } catch (e) {
             res.json(e);
         }

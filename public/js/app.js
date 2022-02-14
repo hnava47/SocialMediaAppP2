@@ -1,8 +1,12 @@
 $(document).ready(function() {
     const $logoutBtn = $('#logoutBtn');
-    const $modal = $('.modal');
+    const $postModal = $('#postModal');
     const $postMessage = $('#postMessage');
     const $postBtn = $('#postBtn');
+    const $updateModal = $('#updateModal');
+    const $updateMessage = $('#updateMessage');
+    const $editBtn = $('.editBtn');
+    const $updateBtn = $('#updateBtn');
     const $successMessage = $('.custom-success');
     const $closeBtn = $('#closeMessage');
     const $deletePost = $('.deletePost');
@@ -24,7 +28,7 @@ $(document).ready(function() {
                 message: $postMessage.val().trim()
             })
         });
-        $modal.modal('toggle');
+        $postModal.modal('toggle');
 
         $postMessage.val('');
 
@@ -36,6 +40,37 @@ $(document).ready(function() {
     });
 
     $closeBtn.on('click', () => $successMessage.hide());
+
+    $editBtn.on('click', async (event) => {
+        const updateId = $(event.target).parent().parent().parent().parent().attr('id');
+        const updatePost = await $.ajax({
+            url: '/api/posts/' + updateId,
+            method: 'GET'
+        });
+
+        $updateMessage.val(updatePost.message);
+
+
+        $updateBtn.on('click', async () => {
+            await $.ajax({
+                url: '/api/posts/' + updateId,
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify({
+                    message: $updateMessage.val().trim()
+                })
+            });
+            $updateModal.modal('toggle');
+
+            $updateMessage.val('');
+
+            $successMessage.fadeIn();
+
+            setTimeout(function() {
+                $successMessage.fadeOut();
+            }, 4000);
+        });
+    });
 
     $deletePost.on('click', async (event) => {
         const postId = $(event.target).parent().parent().parent().parent().attr('id');
