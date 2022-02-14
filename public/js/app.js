@@ -37,10 +37,13 @@ $(document).ready(function() {
 
     $closeBtn.on('click', () => $successMessage.hide());
 
-    $deletePost.on('click', async () => {
-        console.log($(this).text())
-        // await $.ajax({
-        //     url:
-        // })
+    $deletePost.on('click', async (event) => {
+        const postId = $(event.target).parent().parent().parent().parent().attr('id');
+        await $.ajax({
+            url: '/api/posts/' + postId,
+            method: 'DELETE'
+        });
+
+        window.location.href = '/feed';
     });
 });
