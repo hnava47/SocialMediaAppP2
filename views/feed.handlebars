@@ -2,11 +2,6 @@
     {{> loggedInNavBar}}
     <div class="container-fluid pb-3 px-4">
         {{> postSuccess}}
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <i class="bi bi-plus-lg"></i> Create Post
-        </button>
-
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -26,12 +21,13 @@
                 </div>
             </div>
         </div>
-        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;">
-            <div class="bg-light border rounded-3">
+        <div class="row row-cols-2 justify-content-center">
+            <div class="bg-light border rounded-3 pt-3">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-plus-lg"></i> Create Post
+                </button>
                 {{> posts}}
-            </div>
-            <div class="bg-light border rounded-3">
-                <br><br><br><br><br><br><br><br><br><br>
             </div>
         </div>
     </div>
