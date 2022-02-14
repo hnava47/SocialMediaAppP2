@@ -4,7 +4,6 @@ const {
     Post,
     User
 } = require('../models');
-const sequelize = require('sequelize');
 
 module.exports = {
     feedView: async (req, res) => {
@@ -32,6 +31,10 @@ module.exports = {
         }
     },
     viewAllPosts: async (req, res) => {
+        if (!req.session.loggedIn) {
+            return res.redirect('/login');
+        }
+
         try {
             const allPostsData = await Post.findAll({
                 include: [
