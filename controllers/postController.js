@@ -50,6 +50,9 @@ module.exports = {
                         model: Comment,
                         attributes: ['id']
                     }
+                ],
+                order: [
+                    ["updatedAt", "DESC"]
                 ]
             });
 

@@ -5,20 +5,14 @@
     </a>
     <div class="list-group list-group-flush border-bottom scrollarea">
         {{#each allPosts as |post|}}
-        <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
             <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">List group item heading</strong>
-                <small>Wed</small>
+                <strong class="mb-1">{{post.user.firstName}} {{post.user.lastName}}</strong>
+                <small>{{dateFormat post.updatedAt "MMMM DD"}} at {{dateFormat post.updatedAt "hh:mm A"}}</small>
             </div>
             <div class="col-10 mb-1 small">{{post.message}}</div>
+            <small>Likes {{post.hearts.length}} Comments {{post.comments.length}}</small>
         </a>
         {{/each}}
-        <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
-            <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">List group item heading</strong>
-                <small>Wed</small>
-            </div>
-            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-        </a>
     </div>
 </div>
