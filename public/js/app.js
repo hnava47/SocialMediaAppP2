@@ -5,6 +5,7 @@ $(document).ready(function() {
     const $postBtn = $('#postBtn');
     const $successMessage = $('.custom-success');
     const $closeBtn = $('#closeMessage');
+    const $deletePost = $('.deletePost');
 
     $logoutBtn.on('click', async () => {
         await $.ajax({
@@ -35,4 +36,11 @@ $(document).ready(function() {
     });
 
     $closeBtn.on('click', () => $successMessage.hide());
+
+    $deletePost.on('click', async () => {
+        console.log($(this).text())
+        // await $.ajax({
+        //     url:
+        // })
+    });
 });
