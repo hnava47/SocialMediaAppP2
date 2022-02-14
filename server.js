@@ -22,6 +22,7 @@ const hbs = exphbs.create({});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 hbs.handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+hbs.handlebars.registerHelper('eq', (a, b) => a === b);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

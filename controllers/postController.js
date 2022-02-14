@@ -58,7 +58,7 @@ module.exports = {
 
             res.render('feed', {
                 allPosts: allPostsData.map(post => post.get({ plain: true })),
-                user:req.session.user
+                user: req.session.user
             });
         } catch (e) {
             res.json(e);
