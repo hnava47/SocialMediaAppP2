@@ -7,7 +7,9 @@ $(document).ready(function() {
     const $updateMessage = $('#updateMessage');
     const $editBtn = $('.editBtn');
     const $updateBtn = $('#updateBtn');
-    const $successMessage = $('.custom-success');
+    const $successAlert = $('#successAlert');
+    const $updateAlert = $('#updateAlert');
+    const $deleteAlert = $('#deleteAlert');
     const $closeBtn = $('#closeMessage');
     const $deletePost = $('.deletePost');
 
@@ -32,10 +34,10 @@ $(document).ready(function() {
 
         $postMessage.val('');
 
-        $successMessage.fadeIn();
+        $successAlert.fadeIn();
 
         setTimeout(function() {
-            $successMessage.fadeOut();
+            $successAlert.fadeOut();
         }, 4000);
     });
 
@@ -64,10 +66,10 @@ $(document).ready(function() {
 
             $updateMessage.val('');
 
-            $successMessage.fadeIn();
+            $updateAlert.fadeIn();
 
-            setTimeout(function() {
-                $successMessage.fadeOut();
+            await setTimeout(function() {
+                $updateAlert.fadeOut();
             }, 4000);
         });
     });
@@ -79,6 +81,10 @@ $(document).ready(function() {
             method: 'DELETE'
         });
 
-        window.location.href = '/feed';
+        $deleteAlert.fadeIn();
+
+        setTimeout(function() {
+            $deleteAlert.fadeOut();
+        }, 4000);
     });
 });
