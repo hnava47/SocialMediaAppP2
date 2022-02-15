@@ -4,7 +4,7 @@
     </div>
     <div class="list-group list-group-flush border-bottom scrollarea">
         {{#each allPosts as |post|}}
-            <a id={{post.id}} class="list-group-item list-group-item-action py-3 lh-tight">
+            <a id={{post.id}} class="list-group-item list-group-item-action py-3 lh-tight" data-bs-toggle="collapse" href="#collapse-{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <div class="d-flex w-100 align-items-center justify-content-between">
                     <strong class="mb-1">
                         {{post.user.firstName}} {{post.user.lastName}}
@@ -26,9 +26,20 @@
                     {{post.message}}
                 </div>
                 <small>
-                    Likes {{post.hearts.length}} Comments {{post.comments.length}}
+                    <i id="heartBtn" class="bi bi-heart" data-id={{post.id}}></i> {{post.hearts.length}}&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-chat"></i> {{post.comments.length}}
                 </small>
             </a>
+            <div class="collapse mb-3 mx-1" id="collapse-{{post.id}}">
+                <div class="card card-body mb-2">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
+                <div class="input-group mb-2">
+                    <input id="input-{{post.id}}" type="text" class="form-control rounded-pill" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Add a comment...">
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-primary" type="button" data-id={{post.id}}>Post</button>
+                </div>
+            </div>
         {{/each}}
     </div>
 </div>
