@@ -10,7 +10,9 @@ $(document).ready(function() {
     const $successAlert = $('#successAlert');
     const $updateAlert = $('#updateAlert');
     const $deleteAlert = $('#deleteAlert');
-    const $closeBtn = $('#closeMessage');
+    const $closeSuccessBtn = $('#closeSuccess');
+    const $closeUpdateBtn = $('#closeUpdate');
+    const $closeDeleteBtn = $('#closeDelete');
     const $deletePost = $('.deletePost');
 
     $logoutBtn.on('click', async () => {
@@ -42,7 +44,10 @@ $(document).ready(function() {
         }, 4000);
     });
 
-    $closeBtn.on('click', () => $successMessage.hide());
+    $closeSuccessBtn.on('click', () => {
+        $successAlert.hide();
+        location.reload();
+    });
 
     $editBtn.on('click', async (event) => {
         const updateId = $(event.target).parent().parent().parent().parent().attr('id');
@@ -76,6 +81,11 @@ $(document).ready(function() {
         });
     });
 
+    $closeUpdateBtn.on('click', () => {
+        $updateAlert.hide();
+        location.reload();
+    });
+
     $deletePost.on('click', async (event) => {
         const postId = $(event.target).parent().parent().parent().parent().attr('id');
         await $.ajax({
@@ -89,5 +99,10 @@ $(document).ready(function() {
             $deleteAlert.fadeOut();
             location.reload();
         }, 4000);
+    });
+
+    $closeDeleteBtn.on('click', () => {
+        $deleteAlert.hide();
+        location.reload();
     });
 });
