@@ -38,6 +38,7 @@ $(document).ready(function() {
 
         setTimeout(function() {
             $successAlert.fadeOut();
+            location.reload();
         }, 4000);
     });
 
@@ -68,8 +69,9 @@ $(document).ready(function() {
 
             $updateAlert.fadeIn();
 
-            await setTimeout(function() {
+            setTimeout(function() {
                 $updateAlert.fadeOut();
+                location.reload();
             }, 4000);
         });
     });
@@ -85,6 +87,7 @@ $(document).ready(function() {
 
         setTimeout(function() {
             $deleteAlert.fadeOut();
+            location.reload();
         }, 4000);
     });
 });
