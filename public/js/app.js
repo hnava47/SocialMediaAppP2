@@ -14,6 +14,7 @@ $(document).ready(function() {
     const $closeUpdateBtn = $('#closeUpdate');
     const $closeDeleteBtn = $('#closeDelete');
     const $deletePost = $('.deletePost');
+    const $heartBtn = $('.heartBtn');
 
     $logoutBtn.on('click', async () => {
         await $.ajax({
@@ -50,7 +51,7 @@ $(document).ready(function() {
     });
 
     $editBtn.on('click', async (event) => {
-        const updateId = $(event.target).parent().attr('data-id');
+        const updateId = $(event.target).parent().data('id');
         const updatePost = await $.ajax({
             url: '/api/posts/' + updateId,
             method: 'GET'
@@ -87,7 +88,7 @@ $(document).ready(function() {
     });
 
     $deletePost.on('click', async (event) => {
-        const postId = $(event.target).parent().attr('data-id');
+        const postId = $(event.target).parent().data('id');
         await $.ajax({
             url: '/api/posts/' + postId,
             method: 'DELETE'
@@ -104,5 +105,34 @@ $(document).ready(function() {
     $closeDeleteBtn.on('click', () => {
         $deleteAlert.hide();
         location.reload();
+    });
+
+    $heartBtn.on('click', async (event) => {
+        const $heartEl = $(event.target);
+        const $postId = $heartEl.attr('data-postId');
+        const $heartId = $heartEl.attr('data-heartId');
+        const $heartCount = $('#heartCount-'+$postId);
+
+        if ($heartEl.hasClass('bi-heart')) {
+            // const heartPost = await $.ajax({
+            //     url: '/api/hearts',
+            //     method: 'POST'
+            // });
+
+            $heartEl.removeClass('bi-heart')
+                // .addAttr('data-heartId', heartPost.id)
+                .addClass('bi-heart-fill red-color');
+            $heartCount.text(parseInt($heartCount.text())+1);
+        } else {
+            // await $.ajax({
+            //     url: '/api/heart/' + $heartId,
+            //     method: 'DELETE'
+            // });
+
+            $heartEl.removeClass('bi-heart-fill red-color')
+                // .removeAttr('data-heartId')
+                .addClass('bi-heart');
+            $heartCount.text(parseInt($heartCount.text())-1);
+        }
     });
 });

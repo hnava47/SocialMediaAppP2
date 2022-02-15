@@ -4,7 +4,7 @@
     </div>
     <div class="list-group list-group-flush border-bottom scrollarea">
         {{#each allPosts as |post|}}
-            <a class="list-group-item list-group-item-action py-3 lh-tight" data-bs-toggle="collapse" href="#collapse-{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="list-group-item list-group-item-action py-3 lh-tight">
                 <div class="d-flex w-100 align-items-center justify-content-between">
                     <strong class="mb-1">
                         {{post.user.firstName}} {{post.user.lastName}}
@@ -22,11 +22,13 @@
                 <small class="text-muted">
                     {{dateFormat post.updatedAt "MMMM DD"}} at {{dateFormat post.updatedAt "hh:mm A"}}
                 </small>
-                <div class="col-10 mt-3 mb-1">
+                <div class="col-10 mt-3 mb-1" data-bs-toggle="collapse" href="#collapse-{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                     {{post.message}}
                 </div>
                 <small>
-                    <i id="heartBtn" class="bi bi-heart" data-id={{post.id}}></i> {{post.hearts.length}}&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-chat"></i> {{post.comments.length}}
+                    <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="bi bi-chat"></i>&nbsp;<span>{{post.comments.length}}</span>
                 </small>
             </a>
             <div class="collapse mb-3 mx-1" id="collapse-{{post.id}}">

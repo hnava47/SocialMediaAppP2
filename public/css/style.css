@@ -27,4 +27,8 @@ header {
 
 .scrollarea {
     overflow-y: auto;
-  }
+}
+
+.red-color {
+    color: red;
+}
