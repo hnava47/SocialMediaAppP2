@@ -1,12 +1,66 @@
-const { Post } = require('../models');
+const {
+    Comment,
+    Heart,
+    Post,
+    User
+} = require('../models');
 
 module.exports = {
-    feedView: async (req, res) => {
+    viewAllPosts: async (req, res) => {
         if (!req.session.loggedIn) {
             return res.redirect('/login');
         }
 
-        res.render('feed');
+        try {
+            const allPostsData = await Post.findAll({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['firstName', 'lastName']
+                    },
+                    {
+                        model: Heart,
+                        attributes: ['id']
+                    },
+                    {
+                        model: Comment,
+                        attributes: ['id']
+                    }
+                ],
+                order: [
+                    ["updatedAt", "DESC"]
+                ]
+            });
+
+            res.render('feed', {
+                allPosts: allPostsData.map(post => post.get({ plain: true })),
+                user: req.session.user
+            });
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    viewUserPosts: async (req, res) => {
+        try {
+            const userPosts = await Post.findAll({
+                where: {
+                    creatorId: req.params.userId
+                }
+            });
+
+            res.json(userPosts);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    viewPost: async (req, res) => {
+        try {
+            const getPost = await Post.findByPk(req.params.postId);
+
+            res.json(getPost);
+        } catch (e) {
+            res.json(e);
+        }
     },
     createPost: async (req, res) => {
         const { message } = req.body;
@@ -21,6 +75,33 @@ module.exports = {
                 message
             });
             res.json(post);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    updatePost: async (req, res) => {
+        const { message } = req.body;
+
+        try {
+            await Post.update(
+                { message },
+                { where: { id: req.params.postId } }
+            );
+
+            res.status(200).json({ message: 'Post was successfully updated' });
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    deletePost: async (req, res) => {
+        try {
+            const deletePost = await Post.findByPk(req.params.postId);
+
+            await Post.destroy({
+                where: { id: req.params.postId }
+            });
+
+            res.json(deletePost);
         } catch (e) {
             res.json(e);
         }

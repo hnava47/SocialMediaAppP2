@@ -19,8 +19,12 @@ header {
     cursor: pointer;
 }
 
-.custom-success {
+.custom-alert {
     position: fixed;
     bottom: 0;
     right: 0;
 }
+
+.scrollarea {
+    overflow-y: auto;
+  }
