@@ -20,11 +20,11 @@ module.exports = {
                     },
                     {
                         model: Heart,
-                        attributes: ['id']
+                        attributes: ['id', 'creatorId']
                     },
                     {
                         model: Comment,
-                        attributes: ['id']
+                        attributes: ['id', 'creatorId']
                     }
                 ],
                 order: [

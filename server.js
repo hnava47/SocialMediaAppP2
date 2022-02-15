@@ -7,10 +7,7 @@ const passport = require('passport');
 const facebookStrategy = require('passport-facebook').Strategy;
 const sequelize = require('./config');
 const routes = require('./routes');
-const {
-    equals,
-    inList
- } = require('./helper/handlebars')
+const helpers = require('./utils/hbsHelper');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,13 +18,11 @@ const sessionSettings = {
     saveUninitialized: false
 };
 
-const hbs = exphbs.create({});
+const hbs = exphbs.create({ helpers });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 hbs.handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
-hbs.handlebars.registerHelper('eq', equals);
-hbs.handlebars.registerHelper('in', inList);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

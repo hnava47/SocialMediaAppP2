@@ -9,7 +9,7 @@
                     <strong class="mb-1">
                         {{post.user.firstName}} {{post.user.lastName}}
                     </strong>
-                    {{#if (eq post.creatorId ../user.id)}}
+                    {{#if (equals post.creatorId ../user.id)}}
                         <div class="flex-shrink-0 dropdown">
                             <i class="bi bi-three-dots" data-bs-toggle="dropdown"></i>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" data-id={{post.id}}>
@@ -26,7 +26,24 @@
                     {{post.message}}
                 </div>
                 <small>
-                    <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                    {{#if post.hearts}}
+                        {{#each post.hearts as |heart|}}
+                            {{#if (equals @index (minus post.hearts.length 1))}}
+                                {{#if (equals ../../user.id heart.creatorId)}}
+                                    <i class="bi bi-heart-fill red-color heartBtn" data-postId={{post.id}} data-heartId={{heart.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                                {{else}}
+                                    <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                                {{/if}}
+                            {{else}}
+                                {{#if (equals ../../user.id heart.creatorId)}}
+                                    <i class="bi bi-heart-fill red-color heartBtn" data-postId={{post.id}} data-heartId={{heart.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                                {{/if}}
+                            {{/if}}
+                        {{/each}}
+                    {{else}}
+                        <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
+                    {{/if}}
+                    {{!-- <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span> --}}
                     &nbsp;&nbsp;&nbsp;
                     <i class="bi bi-chat"></i>&nbsp;<span>{{post.comments.length}}</span>
                 </small>
