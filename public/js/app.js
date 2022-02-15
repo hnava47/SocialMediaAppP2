@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
 
     $editBtn.on('click', async (event) => {
-        const updateId = $(event.target).parent().parent().parent().parent().attr('id');
+        const updateId = $(event.target).parent().attr('data-id');
         const updatePost = await $.ajax({
             url: '/api/posts/' + updateId,
             method: 'GET'
@@ -87,7 +87,7 @@ $(document).ready(function() {
     });
 
     $deletePost.on('click', async (event) => {
-        const postId = $(event.target).parent().parent().parent().parent().attr('id');
+        const postId = $(event.target).parent().attr('data-id');
         await $.ajax({
             url: '/api/posts/' + postId,
             method: 'DELETE'

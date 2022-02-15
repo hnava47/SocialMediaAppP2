@@ -12,7 +12,7 @@
                     {{#if (eq post.creatorId ../user.id)}}
                         <div class="flex-shrink-0 dropdown">
                             <i class="bi bi-three-dots" data-bs-toggle="dropdown"></i>
-                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" data-id={{post.id}}>
                                 <li class="dropdown-item editBtn" data-bs-toggle="modal" data-bs-target="#updateModal">Edit</li>
                                 <li class="dropdown-item deletePost">Delete</li>
                             </ul>
