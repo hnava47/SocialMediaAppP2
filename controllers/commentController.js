@@ -1,52 +1,44 @@
-const req = require('express/lib/request');
-const res = require('express/lib/response');
 const { Comment } = require('../models');
 
 module.exports = {
-    
-    createComment: (req,res) => {
-    // TODO: Add functions for comments (createComment, updateComment, deleteComment)
-        Comment.create({...req.body,  creatorId: req.session.user.id  })
-            .then(newComment => {
-                console.log(newComment);
-                res.json(newComment)
-            })
-            .catch(err => {
-                res.status(500).json(err)
-            })
-    },
+    createComment: async (req,res) => {
+        const { postId, message } = req.body;
+        try {
+            const createdComment = await Comment.create({
+                creatorId: req.session.user.id,
+                postId,
+                message
+            });
 
-    deleteComment: (req,res) => {
-        Comment.destroy({ 
-            where:{
-                id:req.params.id
-            }
-        })
-        .then(affectedRow => {
-                if(affectedRow >0 ){
-                    s.status(200).end()
-                }  else {
-                    res.status(404).end()
+            res.json(createdComment);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    deleteComment: async (req,res) => {
+        try {
+            await Comment.destroy({
+                where:{
+                    id:req.params.commentId
                 }
-        })
-        .catch(err =>{
-            res.status(500).json(err)
-        })
-    },
- 
+            });
 
-    updateComment: (req,res) => {
-        // TODO: Add functions for comments (createComment, updateComment, deleteComment)
-            Comment.update({...req.body,  creatorId: req.session.user.id  })
-                .then(editComment => {
-                    console.log(editComment);
-                    res.json(editComment)
-                })
-                .catch(err => {
-                    res.status(500).json(err)
-                })
-        },
-    
-    
-            
+            res.status(200).json({ message: 'Comment deleted successfully' });
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    updateComment: async (req,res) => {
+        const { message } = req.body;
+        try {
+            await Comment.update(
+                { message },
+                { where: { id: req.params.commentId } }
+            );
+
+            res.status(200).json({ message: 'Comment was updated successfully' });
+        } catch (e) {
+            res.json(e);
+        }
+    }
 };
