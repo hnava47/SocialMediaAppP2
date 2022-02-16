@@ -6,6 +6,11 @@ header {
     background-color: #f5f5f5;
 }
 
+#fbBtn {
+    background-color: #4267B2;
+    color: white;
+}
+
 .hr {
     border-bottom: 1px solid black;
 }
@@ -14,8 +19,12 @@ header {
     cursor: pointer;
 }
 
-.custom-success {
+.custom-alert {
     position: fixed;
     bottom: 0;
     right: 0;
 }
+
+.scrollarea {
+    overflow-y: auto;
+  }
