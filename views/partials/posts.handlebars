@@ -27,23 +27,16 @@
                 </div>
                 <small>
                     {{#if post.hearts}}
-                        {{#each post.hearts as |heart|}}
-                            {{#if (equals @index (minus post.hearts.length 1))}}
-                                {{#if (equals ../../user.id heart.creatorId)}}
-                                    <i class="bi bi-heart-fill red-color heartBtn" data-postId={{post.id}} data-heartId={{heart.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
-                                {{else}}
-                                    <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
-                                {{/if}}
+                        {{#with (inList ../userId post.hearts creatorId)}}
+                            {{#if id}}
+                                <i class="bi bi-heart-fill red-color heartBtn" data-postId={{post.id}} data-heartId={{id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
                             {{else}}
-                                {{#if (equals ../../user.id heart.creatorId)}}
-                                    <i class="bi bi-heart-fill red-color heartBtn" data-postId={{post.id}} data-heartId={{heart.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
-                                {{/if}}
+                                <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
                             {{/if}}
-                        {{/each}}
+                        {{/with}}
                     {{else}}
                         <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
                     {{/if}}
-                    {{!-- <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span> --}}
                     &nbsp;&nbsp;&nbsp;
                     <i class="bi bi-chat"></i>&nbsp;<span>{{post.comments.length}}</span>
                 </small>
