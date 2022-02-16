@@ -5,6 +5,8 @@ const {
     User
 } = require('../models');
 
+const { each } = require('lodash');
+
 module.exports = {
     viewAllPosts: async (req, res) => {
         if (!req.session.loggedIn) {
@@ -32,8 +34,19 @@ module.exports = {
                 ]
             });
 
+            const allPosts = allPostsData.map(post => post.get({ plain: true }))
+
+            each(allPosts, (post) => {
+                each(post.hearts, heart => {
+                    if (heart.creatorId === req.session.user.id) {
+                        post.isLikedByUser = true;
+                        post.heartId = heart.id;
+                    }
+                })
+            });
+
             res.render('feed', {
-                allPosts: allPostsData.map(post => post.get({ plain: true })),
+                allPosts,
                 user: req.session.user
             });
         } catch (e) {

@@ -114,23 +114,27 @@ $(document).ready(function() {
         const $heartCount = $('#heartCount-'+$postId);
 
         if ($heartEl.hasClass('bi-heart')) {
-            // const heartPost = await $.ajax({
-            //     url: '/api/hearts',
-            //     method: 'POST'
-            // });
+            const heartPost = await $.ajax({
+                url: '/api/hearts',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                data: JSON.stringify({
+                    postId: $postId
+                })
+            });
 
             $heartEl.removeClass('bi-heart')
-                // .addAttr('data-heartId', heartPost.id)
+                .attr('data-heartId', heartPost.id)
                 .addClass('bi-heart-fill red-color');
             $heartCount.text(parseInt($heartCount.text())+1);
         } else {
-            // await $.ajax({
-            //     url: '/api/heart/' + $heartId,
-            //     method: 'DELETE'
-            // });
+            await $.ajax({
+                url: '/api/hearts/' + $heartId,
+                method: 'DELETE'
+            });
 
             $heartEl.removeClass('bi-heart-fill red-color')
-                // .removeAttr('data-heartId')
+                .removeAttr('data-heartId')
                 .addClass('bi-heart');
             $heartCount.text(parseInt($heartCount.text())-1);
         }
