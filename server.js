@@ -41,7 +41,7 @@ passport.use(new facebookStrategy({
     callbackURL: 'http://localhost:3001/auth/facebook/callback',
     profileFields: ['id', 'email', 'first_name', 'last_name']
     },
-    function(accessToken, refreshToken, profile, cb) {
+    function (accessToken, refreshToken, profile, cb) {
         return cb(null, profile);
     }
 ));
