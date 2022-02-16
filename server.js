@@ -40,7 +40,7 @@ passport.use(new facebookStrategy({
     clientSecret: process.env.FB_SECRET,
     callbackURL: 'http://localhost:3001/auth/facebook/callback',
     profileFields: ['id', 'email', 'first_name', 'last_name']
-},
+    },
     function (accessToken, refreshToken, profile, cb) {
         return cb(null, profile);
     }
