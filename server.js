@@ -21,6 +21,8 @@ const hbs = exphbs.create({});
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+hbs.handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+hbs.handlebars.registerHelper('eq', (a, b) => a === b);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -39,7 +41,7 @@ passport.use(new facebookStrategy({
     callbackURL: 'http://localhost:3001/auth/facebook/callback',
     profileFields: ['id', 'email', 'first_name', 'last_name']
     },
-    function(accessToken, refreshToken, profile, cb) {
+    function (accessToken, refreshToken, profile, cb) {
         return cb(null, profile);
     }
 ));

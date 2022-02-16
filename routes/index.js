@@ -6,12 +6,12 @@ const {
     signupView
 } = require('../controllers/userController');
 const {
-    feedView
+    viewAllPosts
 } = require('../controllers/postController');
 
 router.get('/login', loginView);
 router.get('/signup', signupView);
-router.get('/feed', feedView);
+router.get('/feed', viewAllPosts);
 
 router.use('/auth', authRoutes);
 router.use('/api', apiRoutes);
