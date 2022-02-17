@@ -17,13 +17,15 @@ module.exports = {
     },
     deleteComment: async (req,res) => {
         try {
+            const delComment = await Comment.findByPk(req.params.commentId)
+
             await Comment.destroy({
                 where:{
                     id:req.params.commentId
                 }
             });
 
-            res.status(200).json({ message: 'Comment deleted successfully' });
+            res.json(delComment);
         } catch (e) {
             res.json(e);
         }
@@ -36,7 +38,9 @@ module.exports = {
                 { where: { id: req.params.commentId } }
             );
 
-            res.status(200).json({ message: 'Comment was updated successfully' });
+            const patchComment = await Comment.findByPk(req.params.commentId);
+
+            res.json(patchComment);
         } catch (e) {
             res.json(e);
         }
