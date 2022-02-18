@@ -53,9 +53,9 @@ $(document).ready(function() {
     });
 
     $editPost.on('click', async (event) => {
-        const updateId = $(event.target).parent().data('id');
+        const $updateId = $(event.target).parent().data('id');
         const updatePost = await $.ajax({
-            url: '/api/posts/' + updateId,
+            url: '/api/posts/' + $updateId,
             method: 'GET'
         });
 
@@ -90,17 +90,18 @@ $(document).ready(function() {
     });
 
     $deletePost.on('click', async (event) => {
-        const postId = $(event.target).parent().data('id');
+        const $postId = $(event.target).parent().data('id');
         await $.ajax({
-            url: '/api/posts/' + postId,
+            url: '/api/posts/' + $postId,
             method: 'DELETE'
         });
+
+        $('#' + $postId).remove();
 
         $deleteAlert.fadeIn();
 
         setTimeout(function() {
             $deleteAlert.fadeOut();
-            location.reload();
         }, 4000);
     });
 
