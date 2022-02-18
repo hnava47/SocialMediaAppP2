@@ -113,8 +113,19 @@ $(document).ready(function() {
     $postCommentBtn.on('click', async (event) => {
         const $postCommentId = $(event.target).data('id')
         const $commentMessage = $("#input-" + $postCommentId);
+        const $commentParent = $('#collapse-' + $postCommentId);
+        const $cardDiv = $('<div>');
+        const $commentDiv = $('<div>');
+        const $commentNameEl = $('<strong>');
+        const $dropdownDiv = $('<div>');
+        const $dotIcon = $('<i>');
+        const $dropdownUl = $('<ul>');
+        const $editLi = $('<li>');
+        const $deleteLi = $('<li>');
+        const $commentDateEl = $('<small>');
+        const $messageDiv = $('<div>');
 
-        await $.ajax({
+        const comment = await $.ajax({
             url: '/api/comments',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -124,18 +135,56 @@ $(document).ready(function() {
             })
         });
 
+        $deleteLi.addClass('dropdown-item deleteComment')
+            .text('Delete');
+
+        $editLi.addClass('dropdown-item editComment')
+            .text('Edit')
+            .attr({
+                'data-bs-toggle': 'modal',
+                'data-bs-target': '#updateModal'
+            });
+
+        $dropdownUl.addClass('dropdown-menu text-small shadow')
+            .attr({
+                'aria-labelledby': 'dropdownUser2',
+                'data-commentId': comment.id
+            })
+            .append($editLi, $deleteLi);
+
+        $dotIcon.addClass('bi bi-three-dots')
+            .attr('data-bs-toggle', 'dropdown')
+            .append($dropdownUl);
+
+        $dropdownDiv.addClass('flex-shrink-0 dropdown')
+            .append($dotIcon);
+
+        $commentNameEl.addClass('comment-sm')
+            .text('firstName' + ' ' + 'lastName');
+
+        $commentDiv.addClass('d-flex w-100 align-items-center justify-content-between')
+            .append($commentNameEl, $dropdownDiv);
+
+        $messageDiv.addClass('mt-2 comment-sm')
+            .text(comment.message);
+
+        $cardDiv.addClass('card card-body')
+            .attr('id', comment.id)
+            .append($commentDiv, $messageDiv);
+
+        $commentParent.prepend($cardDiv);
+
         $successAlert.fadeIn();
 
         setTimeout(function() {
             $successAlert.fadeOut();
-            location.reload();
         }, 4000);
     });
 
     $heartBtn.on('click', async (event) => {
         const $heartEl = $(event.target);
-        const $postId = $heartEl.attr('data-postId');
-        const $heartId = $heartEl.attr('data-heartId');
+        const $postId = $heartEl.data('postid');
+        const $heartId = $heartEl.data('heartid');
         const $heartCount = $('#heartCount-'+$postId);
 
         if ($heartEl.hasClass('bi-heart')) {

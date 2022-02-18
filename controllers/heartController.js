@@ -1,8 +1,6 @@
 const { Heart } = require('../models');
 
 module.exports = {
-
-    // // viewHearts;
     viewHearts: async (req, res) => {
         const { creatorId, postId } = req.params
         console.log(req.params);
@@ -14,13 +12,11 @@ module.exports = {
         }
         // else if they dont come to true display transperent like/heart
     },
-
-    // // createHearts;
     createHeart: async (req, res) => {
         try {
             const { postId } = req.body
             const createHeart = await Heart.create({
-                creatorId: req.params.userId,
+                creatorId: req.session.user.id,
                 postId
             })
             res.json(createHeart);

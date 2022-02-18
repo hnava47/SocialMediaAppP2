@@ -36,7 +36,7 @@
                 </small>
                 <div class="collapse mt-2 mb-2 mx-2" id="collapse-{{post.id}}">
                     {{#each post.comments as |comment|}}
-                        <div id={{comment.id}} class="card card-body" data-commentId={{comment.id}}>
+                        <div id={{comment.id}} class="card card-body">
                             <div class="d-flex w-100 align-items-center justify-content-between">
                                 <strong class="comment-sm">
                                     {{comment.user.firstName}}&nbsp;{{comment.user.lastName}}
