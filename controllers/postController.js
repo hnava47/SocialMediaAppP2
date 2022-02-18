@@ -35,7 +35,8 @@ module.exports = {
                     }
                 ],
                 order: [
-                    ["updatedAt", "DESC"]
+                    ['updatedAt', 'DESC'],
+                    ['comments', 'updatedAt', 'DESC']
                 ]
             });
 

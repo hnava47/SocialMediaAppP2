@@ -165,18 +165,19 @@ $(document).ready(function() {
     });
 
     $deleteComment.on('click', async (event) => {
-        const commentId = $(event.target).parent().data('commentid');
+        const $commentId = $(event.target).parent().data('commentid');
 
         await $.ajax({
-            url: '/api/comments/' + commentId,
+            url: '/api/comments/' + $commentId,
             method: 'DELETE'
         });
+
+        $('#' + $commentId).remove();
 
         $deleteAlert.fadeIn();
 
         setTimeout(function() {
             $deleteAlert.fadeOut();
-            location.reload();
         }, 4000);
     });
 });
