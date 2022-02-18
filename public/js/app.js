@@ -5,7 +5,6 @@ $(document).ready(function() {
     const $postBtn = $('#postBtn');
     const $updateModal = $('#updateModal');
     const $updateMessage = $('#updateMessage');
-    const $editBtn = $('.editBtn');
     const $updateBtn = $('#updateBtn');
     const $successAlert = $('#successAlert');
     const $updateAlert = $('#updateAlert');
@@ -13,8 +12,10 @@ $(document).ready(function() {
     const $closeSuccessBtn = $('#closeSuccess');
     const $closeUpdateBtn = $('#closeUpdate');
     const $closeDeleteBtn = $('#closeDelete');
+    const $editPost = $('.editPost');
     const $deletePost = $('.deletePost');
     const $heartBtn = $('.heartBtn');
+    const $deleteComment = $('.deleteComment');
 
     $logoutBtn.on('click', async () => {
         await $.ajax({
@@ -50,7 +51,7 @@ $(document).ready(function() {
         location.reload();
     });
 
-    $editBtn.on('click', async (event) => {
+    $editPost.on('click', async (event) => {
         const updateId = $(event.target).parent().data('id');
         const updatePost = await $.ajax({
             url: '/api/posts/' + updateId,
@@ -104,7 +105,6 @@ $(document).ready(function() {
 
     $closeDeleteBtn.on('click', () => {
         $deleteAlert.hide();
-        location.reload();
     });
 
     $heartBtn.on('click', async (event) => {
@@ -138,5 +138,22 @@ $(document).ready(function() {
                 .addClass('bi-heart');
             $heartCount.text(parseInt($heartCount.text())-1);
         }
+    });
+
+    $deleteComment.on('click', async (event) => {
+        const commentId = $(event.target).parent().data('commentid');
+
+        const commentRes = await $.ajax({
+            url: '/api/comments/' + commentId,
+            method: 'DELETE'
+        });
+
+        $('#'+commentRes.id).remove();
+
+        $deleteAlert.fadeIn();
+
+        setTimeout(function() {
+            $deleteAlert.fadeOut();
+        }, 4000);
     });
 });

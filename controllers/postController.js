@@ -26,7 +26,12 @@ module.exports = {
                     },
                     {
                         model: Comment,
-                        attributes: ['id', 'creatorId']
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['firstName', 'lastName']
+                            }
+                        ]
                     }
                 ],
                 order: [

@@ -2,10 +2,11 @@ const { Comment } = require('../models');
 
 module.exports = {
     createComment: async (req,res) => {
-        const { postId, message } = req.body;
+        const { creatorId, postId, message } = req.body;
         try {
             const createdComment = await Comment.create({
-                creatorId: req.session.user.id,
+                // creatorId: req.session.user.id,
+                creatorId,
                 postId,
                 message
             });

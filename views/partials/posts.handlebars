@@ -4,7 +4,7 @@
     </div>
     <div class="list-group list-group-flush border-bottom scrollarea">
         {{#each allPosts as |post|}}
-            <a class="list-group-item list-group-item-action py-3 lh-tight">
+            <a id={{post.id}} class="list-group-item list-group-item-action py-3 lh-tight">
                 <div class="d-flex w-100 align-items-center justify-content-between">
                     <strong class="mb-1">
                         {{post.user.firstName}} {{post.user.lastName}}
@@ -13,7 +13,7 @@
                         <div class="flex-shrink-0 dropdown">
                             <i class="bi bi-three-dots" data-bs-toggle="dropdown"></i>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" data-id={{post.id}}>
-                                <li class="dropdown-item editBtn" data-bs-toggle="modal" data-bs-target="#updateModal">Edit</li>
+                                <li class="dropdown-item editPost" data-bs-toggle="modal" data-bs-target="#updateModal">Edit</li>
                                 <li class="dropdown-item deletePost">Delete</li>
                             </ul>
                         </div>
@@ -22,7 +22,7 @@
                 <small class="text-muted">
                     {{dateFormat post.updatedAt "MMMM DD"}} at {{dateFormat post.updatedAt "hh:mm A"}}
                 </small>
-                <div class="col-10 mt-3 mb-1" data-bs-toggle="collapse" href="#collapse-{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <div class="col-10 mt-3 mb-1">
                     {{post.message}}
                 </div>
                 <small>
@@ -32,22 +32,43 @@
                         <i class="bi bi-heart heartBtn" data-postId={{post.id}}></i>&nbsp;<span id="heartCount-{{post.id}}">{{post.hearts.length}}</span>
                     {{/if}}
                     &nbsp;&nbsp;&nbsp;
-                    <i class="bi bi-chat"></i>&nbsp;<span>{{post.comments.length}}</span>
+                    <i class="bi bi-chat" data-bs-toggle="collapse" href="#collapse-{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseExample"></i>&nbsp;<span>{{post.comments.length}}</span>
                 </small>
+                <div class="collapse mt-2 mb-3 mx-2" id="collapse-{{post.id}}">
+                    {{#each post.comments as |comment|}}
+                        <div id={{comment.id}} class="card card-body" data-commentId={{comment.id}}>
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <strong class="comment-sm">
+                                    {{comment.user.firstName}}&nbsp;{{comment.user.lastName}}
+                                </strong>
+                                {{#if (equals comment.creatorId ../../user.id)}}
+                                    <div class="flex-shrink-0 dropdown">
+                                        <i class="bi bi-three-dots" data-bs-toggle="dropdown"></i>
+                                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" data-commentId={{comment.id}}>
+                                            <li class="dropdown-item editComment" data-bs-toggle="modal" data-bs-target="#updateModal">Edit</li>
+                                            <li class="dropdown-item deleteComment">Delete</li>
+                                        </ul>
+                                    </div>
+                                {{/if}}
+                            </div>
+                            <small class="text-muted comment-xsm">
+                                {{dateFormat comment.updatedAt "MMMM DD"}} at {{dateFormat comment.updatedAt "hh:mm A"}}
+                            </small>
+                            <div class="mt-2 comment-sm">
+                                {{comment.message}}
+                            </div>
+                        </div>
+                    {{/each}}
+                    <div class="input-group my-2">
+                        <img src="./img/person-circle.svg" alt="User" width="38" height="38" class="rounded-circle">
+                        &nbsp;&nbsp;
+                        <input id="input-{{post.id}}" type="text" class="form-control rounded-pill" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Add a comment...">
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary" type="button" data-id={{post.id}}>Post</button>
+                    </div>
+                </div>
             </a>
-            <div class="collapse mb-3 mx-1" id="collapse-{{post.id}}">
-                <div class="card card-body mb-2">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                </div>
-                <div class="input-group mb-2">
-                    <img src="./img/person-circle.svg" alt="User" width="38" height="38" class="rounded-circle">
-                    &nbsp;&nbsp;
-                    <input id="input-{{post.id}}" type="text" class="form-control rounded-pill" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Add a comment...">
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary" type="button" data-id={{post.id}}>Post</button>
-                </div>
-            </div>
         {{/each}}
     </div>
 </div>

@@ -32,3 +32,11 @@ header {
 .red-color {
     color: red;
 }
+
+.comment-xsm {
+    font-size: x-small;
+}
+
+.comment-sm{
+    font-size: small;
+}
