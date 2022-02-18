@@ -15,6 +15,7 @@ $(document).ready(function() {
     const $editPost = $('.editPost');
     const $deletePost = $('.deletePost');
     const $heartBtn = $('.heartBtn');
+    const $postCommentBtn = $('.postCommentBtn');
     const $deleteComment = $('.deleteComment');
 
     $logoutBtn.on('click', async () => {
@@ -105,6 +106,29 @@ $(document).ready(function() {
 
     $closeDeleteBtn.on('click', () => {
         $deleteAlert.hide();
+        location.reload();
+    });
+
+    $postCommentBtn.on('click', async (event) => {
+        const $postCommentId = $(event.target).data('id')
+        const $commentMessage = $("#input-" + $postCommentId);
+
+        await $.ajax({
+            url: '/api/comments',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({
+                message: $commentMessage.val().trim(),
+                postId: $postCommentId
+            })
+        });
+
+        $successAlert.fadeIn();
+
+        setTimeout(function() {
+            $successAlert.fadeOut();
+            location.reload();
+        }, 4000);
     });
 
     $heartBtn.on('click', async (event) => {
@@ -143,17 +167,16 @@ $(document).ready(function() {
     $deleteComment.on('click', async (event) => {
         const commentId = $(event.target).parent().data('commentid');
 
-        const commentRes = await $.ajax({
+        await $.ajax({
             url: '/api/comments/' + commentId,
             method: 'DELETE'
         });
-
-        $('#'+commentRes.id).remove();
 
         $deleteAlert.fadeIn();
 
         setTimeout(function() {
             $deleteAlert.fadeOut();
+            location.reload();
         }, 4000);
     });
 });
