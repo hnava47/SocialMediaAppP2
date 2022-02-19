@@ -1,8 +1,7 @@
 const { Comment } = require('../models');
-const { create } = require('../models/Comment');
 
 module.exports = {
-    createComment: async (req,res) => {
+    createComment: async (req, res) => {
         const { postId, message } = req.body;
         try {
             const createdCommentData = await Comment.create({
@@ -18,16 +17,14 @@ module.exports = {
                 lastName: req.session.user.lastName
             };
 
-            console.log(createdComment);
-
             res.json(createdComment);
         } catch (e) {
             res.json(e);
         }
     },
-    deleteComment: async (req,res) => {
+    deleteComment: async (req, res) => {
         try {
-            const delComment = await Comment.findByPk(req.params.commentId)
+            const delComment = await Comment.findByPk(req.params.commentId);
 
             await Comment.destroy({
                 where:{
@@ -40,7 +37,7 @@ module.exports = {
             res.json(e);
         }
     },
-    updateComment: async (req,res) => {
+    updateComment: async (req, res) => {
         const { message } = req.body;
         try {
             await Comment.update(
