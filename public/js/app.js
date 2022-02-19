@@ -135,6 +135,8 @@ $(document).ready(function() {
             })
         });
 
+        $commentMessage.val('');
+
         $deleteLi.addClass('dropdown-item deleteComment')
             .text('Delete');
 
@@ -160,7 +162,7 @@ $(document).ready(function() {
             .append($dotIcon);
 
         $commentNameEl.addClass('comment-sm')
-            .text('firstName' + ' ' + 'lastName');
+            .text(comment.user.firstName + ' ' + comment.user.lastName);
 
         $commentDiv.addClass('d-flex w-100 align-items-center justify-content-between')
             .append($commentNameEl, $dropdownDiv);

@@ -1,14 +1,24 @@
 const { Comment } = require('../models');
+const { create } = require('../models/Comment');
 
 module.exports = {
     createComment: async (req,res) => {
         const { postId, message } = req.body;
         try {
-            const createdComment = await Comment.create({
+            const createdCommentData = await Comment.create({
                 creatorId: req.session.user.id,
                 postId,
                 message
             });
+
+            const createdComment = createdCommentData.get({ plain: true });
+
+            createdComment.user = {
+                firstName: req.session.user.firstName,
+                lastName: req.session.user.lastName
+            };
+
+            console.log(createdComment);
 
             res.json(createdComment);
         } catch (e) {
