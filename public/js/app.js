@@ -18,6 +18,31 @@ $(document).ready(function() {
     const $postCommentBtn = $('.postCommentBtn');
     const $deleteComment = $('.deleteComment');
 
+    const hideAlerts = () => {
+        $successAlert.hide();
+        $updateAlert.hide();
+        $deleteAlert.hide();
+    };
+
+    const deleteCommentFn = async (event) => {
+        const $commentId = $(event.target).parent().data('commentid');
+
+        await $.ajax({
+            url: '/api/comments/' + $commentId,
+            method: 'DELETE'
+        });
+
+        $('#' + $commentId).remove();
+
+        hideAlerts();
+
+        $deleteAlert.fadeIn();
+
+        setTimeout(function() {
+            $deleteAlert.fadeOut();
+        }, 4000);
+    };
+
     $logoutBtn.on('click', async () => {
         await $.ajax({
             url: '/api/users/logout',
@@ -74,6 +99,8 @@ $(document).ready(function() {
             $updateModal.modal('toggle');
 
             $updateMessage.val('');
+
+            hideAlerts();
 
             $updateAlert.fadeIn();
 
@@ -155,11 +182,10 @@ $(document).ready(function() {
             .append($editLi, $deleteLi);
 
         $dotIcon.addClass('bi bi-three-dots')
-            .attr('data-bs-toggle', 'dropdown')
-            .append($dropdownUl);
+            .attr('data-bs-toggle', 'dropdown');
 
         $dropdownDiv.addClass('flex-shrink-0 dropdown')
-            .append($dotIcon);
+            .append($dotIcon, $dropdownUl);
 
         $commentNameEl.addClass('comment-sm')
             .text(comment.user.firstName + ' ' + comment.user.lastName);
@@ -167,20 +193,27 @@ $(document).ready(function() {
         $commentDiv.addClass('d-flex w-100 align-items-center justify-content-between')
             .append($commentNameEl, $dropdownDiv);
 
+        $commentDateEl.addClass('text-muted comment-xsm')
+            .text(moment(comment.updatedAt).format('MMMM DD') + ' at ' + moment(comment.updatedAt).format('hh:mm A'));
+
         $messageDiv.addClass('mt-2 comment-sm')
             .text(comment.message);
 
-        $cardDiv.addClass('card card-body')
-            .attr('id', comment.id)
-            .append($commentDiv, $messageDiv);
+        $cardDiv.attr('id', comment.id)
+            .addClass('card card-body')
+            .append($commentDiv, $commentDateEl, $messageDiv);
 
         $commentParent.prepend($cardDiv);
+
+        hideAlerts();
 
         $successAlert.fadeIn();
 
         setTimeout(function() {
             $successAlert.fadeOut();
         }, 4000);
+
+        $('.deleteComment').on('click', deleteCommentFn);
     });
 
     $heartBtn.on('click', async (event) => {
@@ -216,20 +249,5 @@ $(document).ready(function() {
         }
     });
 
-    $deleteComment.on('click', async (event) => {
-        const $commentId = $(event.target).parent().data('commentid');
-
-        await $.ajax({
-            url: '/api/comments/' + $commentId,
-            method: 'DELETE'
-        });
-
-        $('#' + $commentId).remove();
-
-        $deleteAlert.fadeIn();
-
-        setTimeout(function() {
-            $deleteAlert.fadeOut();
-        }, 4000);
-    });
+    $deleteComment.on('click', deleteCommentFn);
 });
