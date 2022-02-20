@@ -29,6 +29,22 @@ $(document).ready(function() {
         $deleteAlert.hide();
     };
 
+    const deletePostFn = async (event) => {
+        const $postId = $(event.target).parent().data('id');
+        await $.ajax({
+            url: '/api/posts/' + $postId,
+            method: 'DELETE'
+        });
+
+        $('#' + $postId).remove();
+
+        $deleteAlert.fadeIn();
+
+        setTimeout(function() {
+            $deleteAlert.fadeOut();
+        }, 4000);
+    }
+
     const deleteCommentFn = async (event) => {
         const $commentId = $(event.target).parent().data('commentid');
 
@@ -194,6 +210,8 @@ $(document).ready(function() {
         setTimeout(function() {
             $successAlert.fadeOut();
         }, 4000);
+
+        $('.deletePost').on('click', deletePostFn);
     });
 
     $editPost.on('click', async (event) => {
@@ -227,21 +245,7 @@ $(document).ready(function() {
         });
     });
 
-    $deletePost.on('click', async (event) => {
-        const $postId = $(event.target).parent().data('id');
-        await $.ajax({
-            url: '/api/posts/' + $postId,
-            method: 'DELETE'
-        });
-
-        $('#' + $postId).remove();
-
-        $deleteAlert.fadeIn();
-
-        setTimeout(function() {
-            $deleteAlert.fadeOut();
-        }, 4000);
-    });
+    $deletePost.on('click', deletePostFn);
 
     // Comment functions
     $postCommentBtn.on('click', async (event) => {
@@ -278,7 +282,7 @@ $(document).ready(function() {
             .text('Edit')
             .attr({
                 'data-bs-toggle': 'modal',
-                'data-bs-target': '#updateModal'
+                'data-bs-target': '#updateCommentModal'
             });
 
         $dropdownUl.addClass('dropdown-menu text-small shadow')
