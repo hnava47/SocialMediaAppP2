@@ -37,7 +37,7 @@ passport.serializeUser((user, cb) => cb(null, user));
 passport.deserializeUser((obj, cb) => cb(null, obj));
 
 if (process.env.JAWSDB_URL) {
-    callbackURL = 'https://socialmediap2.herokuapp.com'
+    callbackURL = 'https://socialmediap2.herokuapp.com/callback'
 } else {
     callbackURL = 'http://localhost:3001/auth/facebook/callback'
 }
