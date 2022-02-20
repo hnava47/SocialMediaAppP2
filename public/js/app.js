@@ -43,6 +43,37 @@ $(document).ready(function() {
         setTimeout(function() {
             $deleteAlert.fadeOut();
         }, 4000);
+    };
+
+    const updatePostFn = async (event) => {
+        const $updateId = $(event.target).parent().data('id');
+        const $currentPostMessage = $('#message-' + $updateId);
+
+        $updatePostMessage.val($currentPostMessage.text().trim());
+
+        $updatePostBtn.on('click', async () => {
+            const updatedPost = await $.ajax({
+                url: '/api/posts/' + $updateId,
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify({
+                    message: $updatePostMessage.val().trim()
+                })
+            });
+            $updateModal.modal('toggle');
+
+            $currentPostMessage.text(updatedPost.message);
+
+            $updatePostMessage.val('');
+
+            hideAlerts();
+
+            $updateAlert.fadeIn();
+
+            setTimeout(function() {
+                $updateAlert.fadeOut();
+            }, 4000);
+        });
     }
 
     const deleteCommentFn = async (event) => {
@@ -212,38 +243,11 @@ $(document).ready(function() {
         }, 4000);
 
         $('.deletePost').on('click', deletePostFn);
+
+        $('.editPost').on('click', updatePostFn);
     });
 
-    $editPost.on('click', async (event) => {
-        const $updateId = $(event.target).parent().data('id');
-        const $currentPostMessage = $('#message-' + $updateId);
-
-        $updatePostMessage.val($currentPostMessage.text().trim());
-
-        $updatePostBtn.on('click', async () => {
-            const updatedPost = await $.ajax({
-                url: '/api/posts/' + $updateId,
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                data: JSON.stringify({
-                    message: $updatePostMessage.val().trim()
-                })
-            });
-            $updateModal.modal('toggle');
-
-            $currentPostMessage.text(updatedPost.message);
-
-            $updatePostMessage.val('');
-
-            hideAlerts();
-
-            $updateAlert.fadeIn();
-
-            setTimeout(function() {
-                $updateAlert.fadeOut();
-            }, 4000);
-        });
-    });
+    $editPost.on('click', updatePostFn);
 
     $deletePost.on('click', deletePostFn);
 
