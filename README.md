@@ -36,7 +36,7 @@ Future features we are looking to incorporate include the following:
 * Homepage
 
 You can access the updated website at the following link:
-* [Deployed Application]()
+* [Deployed Application](https://socialmediap2.herokuapp.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
