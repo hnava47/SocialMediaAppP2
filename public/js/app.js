@@ -148,6 +148,7 @@ $(document).ready(function() {
         $postIconEl.append($postHeartEl, spaceEl, $postHeartSpan, multiSpaceEl, $postCommentEl, spaceEl, $postCommentSpan);
 
         $postMessageEl.addClass('col-10 mt-3 mb-1')
+            .attr('id', 'message-' + post.id)
             .text(post.message);
 
         $dateEl.addClass('text-muted')
@@ -197,26 +198,24 @@ $(document).ready(function() {
 
     $editPost.on('click', async (event) => {
         const $updateId = $(event.target).parent().data('id');
-        const updatePost = await $.ajax({
-            url: '/api/posts/' + $updateId,
-            method: 'GET'
-        });
+        const $currentPostMessage = $('#message-' + $updateId);
 
-        $updatePostMessage.val(updatePost.message);
-
+        $updatePostMessage.val($currentPostMessage.text().trim());
 
         $updatePostBtn.on('click', async () => {
-            await $.ajax({
-                url: '/api/posts/' + updateId,
+            const updatedPost = await $.ajax({
+                url: '/api/posts/' + $updateId,
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 data: JSON.stringify({
-                    message: $updateMessage.val().trim()
+                    message: $updatePostMessage.val().trim()
                 })
             });
             $updateModal.modal('toggle');
 
-            $updateMessage.val('');
+            $currentPostMessage.text(updatedPost.message);
+
+            $updatePostMessage.val('');
 
             hideAlerts();
 
@@ -224,7 +223,6 @@ $(document).ready(function() {
 
             setTimeout(function() {
                 $updateAlert.fadeOut();
-                location.reload();
             }, 4000);
         });
     });

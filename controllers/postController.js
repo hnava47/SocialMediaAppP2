@@ -115,7 +115,9 @@ module.exports = {
                 { where: { id: req.params.postId } }
             );
 
-            res.status(200).json({ message: 'Post was successfully updated' });
+            const updatedPost = await Post.findByPk(req.params.postId);
+
+            res.json(updatedPost);
         } catch (e) {
             res.json(e);
         }
