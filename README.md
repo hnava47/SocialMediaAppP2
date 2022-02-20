@@ -33,6 +33,7 @@ Future features we are looking to incorporate include the following:
 * Settings option to update username, email, or password
 * Profile page where a user can view only their content
 * Delete account option to allow users to remove their profiles and content from the app
+* Homepage
 
 You can access the updated website at the following link:
 * [Deployed Application]()
