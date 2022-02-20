@@ -89,10 +89,18 @@ module.exports = {
         }
 
         try {
-            const post = await Post.create({
+            const postData = await Post.create({
                 creatorId: req.session.user.id,
                 message
             });
+
+            const post = postData.get({ plain: true });
+
+            post.user = {
+                firstName: req.session.user.firstName,
+                lastName: req.session.user.lastName
+            };
+
             res.json(post);
         } catch (e) {
             res.json(e);

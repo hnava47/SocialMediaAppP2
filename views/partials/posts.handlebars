@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
         <span class="fs-5 fw-semibold">News feed</span>
     </div>
-    <div class="list-group list-group-flush border-bottom scrollarea">
+    <div id='newsFeed' class="list-group list-group-flush border-bottom scrollarea">
         {{#each allPosts as |post|}}
             <a id={{post.id}} class="list-group-item list-group-item-action py-3 lh-tight">
                 <div class="d-flex w-100 align-items-center justify-content-between">
