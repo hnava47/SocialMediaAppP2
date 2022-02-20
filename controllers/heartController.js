@@ -1,8 +1,6 @@
 const { Heart } = require('../models');
 
 module.exports = {
-
-    // // viewHearts;
     viewHearts: async (req, res) => {
         const { creatorId, postId } = req.params
         console.log(req.params);
@@ -14,14 +12,14 @@ module.exports = {
         }
         // else if they dont come to true display transperent like/heart
     },
-
-    // // createHearts;
     createHeart: async (req, res) => {
-        console.log(req.body);
         try {
-            const { creatorId, postId } = req.body
-            await Heart.create({ creatorId: creatorId, postId: postId })
-            res.status(201).send('heart added to post')
+            const { postId } = req.body
+            const createHeart = await Heart.create({
+                creatorId: req.session.user.id,
+                postId
+            })
+            res.json(createHeart);
         } catch (err) {
             res.status(500).json(err)
         }
@@ -30,7 +28,7 @@ module.exports = {
     deleteHeart: async (req, res) => {
         try {
             const { heartId } = req.params
-            // not waiting for click waitting for data base 
+            // not waiting for click waitting for data base
             await Heart.destroy({
                 where: {
                     id: heartId

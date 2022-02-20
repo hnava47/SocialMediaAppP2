@@ -5,6 +5,8 @@ const {
     User
 } = require('../models');
 
+const { each } = require('lodash');
+
 module.exports = {
     viewAllPosts: async (req, res) => {
         if (!req.session.loggedIn) {
@@ -20,20 +22,37 @@ module.exports = {
                     },
                     {
                         model: Heart,
-                        attributes: ['id']
+                        attributes: ['id', 'creatorId']
                     },
                     {
                         model: Comment,
-                        attributes: ['id']
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['firstName', 'lastName']
+                            }
+                        ]
                     }
                 ],
                 order: [
-                    ["updatedAt", "DESC"]
+                    ['updatedAt', 'DESC'],
+                    ['comments', 'updatedAt', 'DESC']
                 ]
             });
 
+            const allPosts = allPostsData.map(post => post.get({ plain: true }))
+
+            each(allPosts, (post) => {
+                each(post.hearts, heart => {
+                    if (heart.creatorId === req.session.user.id) {
+                        post.isLikedByUser = true;
+                        post.heartId = heart.id;
+                    }
+                })
+            });
+
             res.render('feed', {
-                allPosts: allPostsData.map(post => post.get({ plain: true })),
+                allPosts,
                 user: req.session.user
             });
         } catch (e) {
@@ -70,10 +89,18 @@ module.exports = {
         }
 
         try {
-            const post = await Post.create({
+            const postData = await Post.create({
                 creatorId: req.session.user.id,
                 message
             });
+
+            const post = postData.get({ plain: true });
+
+            post.user = {
+                firstName: req.session.user.firstName,
+                lastName: req.session.user.lastName
+            };
+
             res.json(post);
         } catch (e) {
             res.json(e);
@@ -88,7 +115,9 @@ module.exports = {
                 { where: { id: req.params.postId } }
             );
 
-            res.status(200).json({ message: 'Post was successfully updated' });
+            const updatedPost = await Post.findByPk(req.params.postId);
+
+            res.json(updatedPost);
         } catch (e) {
             res.json(e);
         }

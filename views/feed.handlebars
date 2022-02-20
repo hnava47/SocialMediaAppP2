@@ -1,7 +1,7 @@
 <main>
     {{> loggedInNavBar}}
     <div class="container-fluid pb-3 px-4">
-        {{> postSuccess}}
+        {{> alertMessages}}
         {{!-- Post Modal --}}
         <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -43,9 +43,11 @@
         <div class="row row-cols-2 justify-content-center">
             <div class="bg-light border rounded-3 pt-3">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#postModal">
-                    <i class="bi bi-plus-lg"></i> Create Post
-                </button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#postModal">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
                 {{> posts}}
             </div>
         </div>

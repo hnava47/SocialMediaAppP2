@@ -5,9 +5,9 @@ const {
     updateComment
 } = require('../../../controllers/commentController')
 
- router.post('/', createComment);
+router.post('/', createComment);
 
- router.route('/:commentId')
+router.route('/:commentId')
     .patch(updateComment)
     .delete(deleteComment);
 
