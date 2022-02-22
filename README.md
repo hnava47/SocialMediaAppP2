@@ -12,6 +12,7 @@
     <summary>Table of Contents</summary>
     <ol>
         <li><a href="#about-the-project">About The Project</a></li>
+        <li><a href="#license">License</a></li>
         <li><a href="#contact">Contact</a></li>
     </ol>
 </details>
@@ -37,6 +38,11 @@ Future features we are looking to incorporate include the following:
 
 You can access the updated website at the following link:
 * [Deployed Application](https://socialmediap2.herokuapp.com/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
